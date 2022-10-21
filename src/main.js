@@ -24,6 +24,8 @@ const securityCode = document.querySelector("#security-code")
 const securityCodePattern = {
     mask: "0000",
 }
+
+//verifiando a mascara
 const securityCodeMasked = IMask(securityCode, securityCodePattern)
 
 const expirationDate = document.querySelector("#expiration-date")
@@ -83,8 +85,44 @@ document.querySelector('form').addEventListener('submit', (event) => {
 });
 
 const cardHolder = document.querySelector('#card-holder');
+// addEventListener escultar tag selecionada
+// input entrada de dados
 cardHolder.addEventListener('input', () => {
     const ccHolder = document.querySelector('.cc-holder .value');
     // ccHolder.innerText = event.target.value;
+    // innerText => Texto dentro da tag
     ccHolder.innerText = cardHolder.value.length === 0 ? "FULANO DA SILVA" : cardHolder.value
 })
+
+securityCodeMasked.on('accept', () => {
+
+    updateSecurityCode(securityCodeMasked.value)
+});
+
+function updateSecurityCode(code) {
+    const ccSecutiry = document.querySelector(".cc-security .value");
+    ccSecutiry.innerHTML = code.length === 0 ? "123" : code;
+}
+
+
+cardNumberMasked.on('accept', () => {
+    const cardType = cardNumberMasked.masked.currentMask.cardtype;
+    setCardType(cardType)
+    updateCardNumber(cardNumberMasked.value)
+})
+
+function updateCardNumber(number) {
+    const ccNumber = document.querySelector(".cc-number");
+    ccNumber.innerText = number.length === 0 ? "1234 5678 9012 3456" : number;
+}
+
+
+expirationDateMasked.on("accept", () => {
+    updateExpirationDate(expirationDateMasked.value)
+})
+
+function updateExpirationDate(date) {
+    const ccExpirationDate = document.querySelector(".cc-extra .value");
+
+    ccExpirationDate.innerHTML = date.length === 0 ? "01/03" : date;
+}
